@@ -1,4 +1,4 @@
-package com.thetonrifles.recyclerviewsample.adapter;
+package com.thetonrifles.recyclerviewsample.two;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -10,10 +10,9 @@ import android.widget.TextView;
 import com.thetonrifles.recyclerviewsample.R;
 import com.thetonrifles.recyclerviewsample.model.Contact;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class ContactsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+class ContactsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static class EmptyViewHolder extends RecyclerView.ViewHolder {
 
@@ -37,45 +36,27 @@ public class ContactsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private Context mContext;
     private LayoutInflater mLayoutInflater;
 
-    private List<ListItem> mItems;
+    private List<Contact> mItems;
 
     public ContactsAdapter(Context context, List<Contact> contacts) {
         mContext = context;
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mItems = buildItemsList(contacts);
-    }
-
-    private List<ListItem> buildItemsList(List<Contact> contacts) {
-        List<ListItem> items = new ArrayList<>();
-        if (contacts != null && contacts.size() > 0) {
-            for (Contact contact : contacts) {
-                items.add(new ContactItem(contact));
-            }
-        } else {
-            items.add(new EmptyItem());
-        }
-        return items;
-    }
-
-    public void updateContactsList(List<Contact> contacts) {
-        mItems.clear();
-        mItems.addAll(buildItemsList(contacts));
-        notifyDataSetChanged();
+        mItems = contacts;
     }
 
     @Override
     public int getItemCount() {
-        return mItems.size();
+        return mItems.size() > 0 ? mItems.size() : 1;
     }
 
     @Override
     public int getItemViewType(int position) {
-        return mItems.get(position).getType();
+        return mItems.size() == 0 ? 0 : 1;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == ListItem.EMPTY_TYPE) {
+        if (viewType == 0) {
             View itemView = mLayoutInflater.inflate(R.layout.view_empty_item, parent, false);
             return new EmptyViewHolder(itemView);
         } else {
@@ -87,9 +68,8 @@ public class ContactsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, final int position) {
         int type = getItemViewType(position);
-        if (type == ListItem.CONTACT_TYPE) {
-            ContactItem item = (ContactItem) mItems.get(position);
-            Contact contact = item.getContact();
+        if (type == 1) {
+            Contact contact = mItems.get(position);
             ContactViewHolder holder = (ContactViewHolder) viewHolder;
             holder.txt_full_name.setText(contact.getName() + " " + contact.getSurname());
         }

@@ -4,12 +4,10 @@ public class Contact {
 
     private String name;
     private String surname;
-    private String email;
 
-    public Contact(String name, String surname, String email) {
+    public Contact(String name, String surname) {
         this.name = name;
         this.surname = surname;
-        this.email = email;
     }
 
     public String getName() {
@@ -26,14 +24,6 @@ public class Contact {
 
     public void setSurname(String surname) {
         this.surname = surname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
 }

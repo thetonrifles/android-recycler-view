@@ -1,6 +1,6 @@
-package com.thetonrifles.recyclerviewsample.adapter;
+package com.thetonrifles.recyclerviewsample.one;
 
-public abstract class ListItem {
+abstract class ListItem {
 
     public static final int EMPTY_TYPE = 0;
     public static final int CONTACT_TYPE = 1;

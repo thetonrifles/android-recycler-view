@@ -19,7 +19,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SolutionOneActivity"
+            android:name=".one.ContactsActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".two.ContactsActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>

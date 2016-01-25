@@ -1,4 +1,4 @@
-package com.thetonrifles.recyclerviewsample;
+package com.thetonrifles.recyclerviewsample.two;
 
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -7,17 +7,19 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.thetonrifles.recyclerviewsample.adapter.ContactsAdapter;
+import com.thetonrifles.recyclerviewsample.Contacts;
+import com.thetonrifles.recyclerviewsample.R;
 import com.thetonrifles.recyclerviewsample.model.Contact;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SolutionOneActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class ContactsActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     private List<Contact> mContacts;
     private List<Contact> mFiltered;
@@ -31,12 +33,12 @@ public class SolutionOneActivity extends AppCompatActivity implements SearchView
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mContacts = buildContactsList();
+        mContacts = Contacts.getAll();
         mFiltered = new ArrayList<>(mContacts);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.lst_items);
         recyclerView.setLayoutManager(getLayoutManager());
-        mContactsAdapter = new ContactsAdapter(this, mContacts);
+        mContactsAdapter = new ContactsAdapter(this, mFiltered);
         recyclerView.setAdapter(mContactsAdapter);
     }
 
@@ -55,12 +57,13 @@ public class SolutionOneActivity extends AppCompatActivity implements SearchView
         mFiltered.clear();
         String lowerQuery = query.toLowerCase();
         for (Contact contact : mContacts) {
-            if (contact.getName().toLowerCase().contains(lowerQuery) ||
+            if (TextUtils.isEmpty(lowerQuery) ||
+                    contact.getName().toLowerCase().contains(lowerQuery) ||
                     contact.getSurname().toLowerCase().contains(lowerQuery)) {
                 mFiltered.add(contact);
             }
         }
-        mContactsAdapter.updateContactsList(mFiltered);
+        mContactsAdapter.notifyDataSetChanged();
         return false;
     }
 
@@ -73,14 +76,6 @@ public class SolutionOneActivity extends AppCompatActivity implements SearchView
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         return llm;
-    }
-
-    private List<Contact> buildContactsList() {
-        List<Contact> contacts = new ArrayList<>();
-        contacts.add(new Contact("Giorgio", "Bianchi", "giorgio.bianchi@gmail.com"));
-        contacts.add(new Contact("Mario", "Rossi", "mario.rossi@gmail.com"));
-        contacts.add(new Contact("Giuseppe", "Verdi", "giuseppe.verdi@gmail.com"));
-        return contacts;
     }
 
 }

@@ -16,7 +16,8 @@ public class MainActivity extends AppCompatActivity {
         one.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SolutionOneActivity.class);
+                Intent intent = new Intent(MainActivity.this,
+                        com.thetonrifles.recyclerviewsample.one.ContactsActivity.class);
                 startActivity(intent);
             }
         });
@@ -25,8 +26,9 @@ public class MainActivity extends AppCompatActivity {
         two.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, FirstSolutionActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(MainActivity.this,
+                        com.thetonrifles.recyclerviewsample.two.ContactsActivity.class);
+                startActivity(intent);
             }
         });
     }
