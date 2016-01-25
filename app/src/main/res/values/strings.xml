@@ -1,0 +1,8 @@
+<resources>
+
+    <string name="app_name">RecyclerViewSample</string>
+    <string name="txt_no_items">No Items To Display</string>
+    <string name="btn_remove">Remove</string>
+    <string name="action_search">Search</string>
+
+</resources>
