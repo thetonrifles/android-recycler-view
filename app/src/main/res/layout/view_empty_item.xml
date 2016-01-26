@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorAccent"
+    android:orientation="horizontal"
     android:padding="16dp">
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_weight="1"
         android:text="@string/txt_no_items" />
 
-</RelativeLayout>
+    <Button
+        android:id="@+id/btn_show_toast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_show_toast" />
+
+</LinearLayout>

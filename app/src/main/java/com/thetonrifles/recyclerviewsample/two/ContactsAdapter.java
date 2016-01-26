@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,9 +18,12 @@ class ContactsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static class EmptyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        Button btn_toast;
+
         public EmptyViewHolder(View itemView) {
             super(itemView);
-            itemView.setOnClickListener(this);
+            btn_toast = (Button) itemView.findViewById(R.id.btn_show_toast);
+            btn_toast.setOnClickListener(this);
         }
 
         @Override
