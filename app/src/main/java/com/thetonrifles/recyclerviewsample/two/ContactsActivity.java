@@ -3,6 +3,7 @@ package com.thetonrifles.recyclerviewsample.two;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -24,6 +25,7 @@ public class ContactsActivity extends AppCompatActivity implements SearchView.On
     private List<Contact> mContacts;
     private List<Contact> mFiltered;
 
+    private RecyclerView mRecyclerView;
     private ContactsAdapter mContactsAdapter;
 
     @Override
@@ -36,10 +38,10 @@ public class ContactsActivity extends AppCompatActivity implements SearchView.On
         mContacts = Contacts.getAll();
         mFiltered = new ArrayList<>(mContacts);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.lst_items);
-        recyclerView.setLayoutManager(getLayoutManager());
+        mRecyclerView = (RecyclerView) findViewById(R.id.lst_items);
+        mRecyclerView.setLayoutManager(getDefaultLayoutManager());
         mContactsAdapter = new ContactsAdapter(this, mFiltered);
-        recyclerView.setAdapter(mContactsAdapter);
+        mRecyclerView.setAdapter(mContactsAdapter);
     }
 
     @Override
@@ -63,6 +65,11 @@ public class ContactsActivity extends AppCompatActivity implements SearchView.On
                 mFiltered.add(contact);
             }
         }
+        if (mFiltered.size() == 0) {
+            mRecyclerView.setLayoutManager(getEmptyLayoutManager());
+        } else {
+            mRecyclerView.setLayoutManager(getDefaultLayoutManager());
+        }
         mContactsAdapter.notifyDataSetChanged();
         return false;
     }
@@ -72,7 +79,11 @@ public class ContactsActivity extends AppCompatActivity implements SearchView.On
         return false;
     }
 
-    private RecyclerView.LayoutManager getLayoutManager() {
+    private GridLayoutManager getDefaultLayoutManager() {
+        return new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
+    }
+
+    private RecyclerView.LayoutManager getEmptyLayoutManager() {
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         return llm;
