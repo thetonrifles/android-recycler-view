@@ -12,15 +12,15 @@ import com.thetonrifles.recyclerviewsample.R;
 
 import java.util.List;
 
-class SortPersonsAdapter extends RecyclerView.Adapter<SortPersonsAdapter.PlayerViewHolder> {
+class SortPersonsAdapter extends RecyclerView.Adapter<SortPersonsAdapter.PersonViewHolder> {
 
-    protected static class PlayerViewHolder extends RecyclerView.ViewHolder {
+    protected static class PersonViewHolder extends RecyclerView.ViewHolder {
 
         View layout;
         TextView txt_rank;
         TextView txt_full_name;
 
-        public PlayerViewHolder(View itemView) {
+        public PersonViewHolder(View itemView) {
             super(itemView);
             layout = itemView;
             txt_rank = (TextView) itemView.findViewById(R.id.txt_rank);
@@ -32,33 +32,33 @@ class SortPersonsAdapter extends RecyclerView.Adapter<SortPersonsAdapter.PlayerV
     private Context mContext;
     private LayoutInflater mLayoutInflater;
 
-    private SortedList<Person> mPlayers;
+    private SortedList<Person> mPersons;
 
     public SortPersonsAdapter(Context context, List<Person> persons) {
         mContext = context;
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mPlayers = new SortedList<>(Person.class, new PlayerListCallback());
-        mPlayers.addAll(persons);
+        mPersons = new SortedList<>(Person.class, new PersonListCallback());
+        mPersons.addAll(persons);
     }
 
-    public void addPlayer(Person person) {
-        mPlayers.add(person);
+    public void addPerson(Person person) {
+        mPersons.add(person);
     }
 
     @Override
     public int getItemCount() {
-        return mPlayers.size();
+        return mPersons.size();
     }
 
     @Override
-    public SortPersonsAdapter.PlayerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = mLayoutInflater.inflate(R.layout.view_player_item, parent, false);
-        return new PlayerViewHolder(itemView);
+    public PersonViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = mLayoutInflater.inflate(R.layout.view_person_item, parent, false);
+        return new PersonViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(final PlayerViewHolder viewHolder, final int position) {
-        Person person = mPlayers.get(position);
+    public void onBindViewHolder(final PersonViewHolder viewHolder, final int position) {
+        Person person = mPersons.get(position);
         viewHolder.txt_rank.setText(person.getRank() + "\nRANK");
         viewHolder.txt_full_name.setText(person.getName());
     }
@@ -66,7 +66,7 @@ class SortPersonsAdapter extends RecyclerView.Adapter<SortPersonsAdapter.PlayerV
     /**
      * Implementation of callback for getting updates on person list changes.
      */
-    private class PlayerListCallback extends SortedList.Callback<Person> {
+    private class PersonListCallback extends SortedList.Callback<Person> {
 
         @Override
         public int compare(Person p1, Person p2) {
@@ -76,12 +76,12 @@ class SortPersonsAdapter extends RecyclerView.Adapter<SortPersonsAdapter.PlayerV
 
         @Override
         public void onInserted(int position, int count) {
-            notifyDataSetChanged();
+            notifyItemInserted(position);
         }
 
         @Override
         public void onRemoved(int position, int count) {
-            notifyDataSetChanged();
+            notifyItemRemoved(position);
         }
 
         @Override

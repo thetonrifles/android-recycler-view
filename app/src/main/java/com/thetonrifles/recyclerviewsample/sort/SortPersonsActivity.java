@@ -18,12 +18,12 @@ public class SortPersonsActivity extends AppCompatActivity {
 
     private List<Person> mPersons;
 
-    private SortPersonsAdapter mPlayersAdapter;
+    private SortPersonsAdapter mPersonsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_players_list);
+        setContentView(R.layout.activity_persons_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -31,21 +31,21 @@ public class SortPersonsActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.lst_items);
         recyclerView.setLayoutManager(getLayoutManager());
-        mPlayersAdapter = new SortPersonsAdapter(this, mPersons);
-        recyclerView.setAdapter(mPlayersAdapter);
+        mPersonsAdapter = new SortPersonsAdapter(this, mPersons);
+        recyclerView.setAdapter(mPersonsAdapter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // building new fake player
+                // building new fake person
                 Person person = new Person(
                         Utils.buildRandomInt(10),
                         Utils.buildRandomName(5) + " " + Utils.buildRandomName(5));
                 // let's keep also basic list updated
                 mPersons.add(person);
                 // let's update adapter
-                mPlayersAdapter.addPlayer(person);
+                mPersonsAdapter.addPerson(person);
             }
         });
     }
