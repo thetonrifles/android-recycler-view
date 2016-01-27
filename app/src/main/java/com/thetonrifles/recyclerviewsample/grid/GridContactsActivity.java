@@ -1,4 +1,4 @@
-package com.thetonrifles.recyclerviewsample.two;
+package com.thetonrifles.recyclerviewsample.grid;
 
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -20,13 +20,13 @@ import com.thetonrifles.recyclerviewsample.model.Contact;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContactsActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class GridContactsActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     private List<Contact> mContacts;
     private List<Contact> mFiltered;
 
     private RecyclerView mRecyclerView;
-    private ContactsAdapter mContactsAdapter;
+    private GridContactsAdapter mContactsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,7 @@ public class ContactsActivity extends AppCompatActivity implements SearchView.On
 
         mRecyclerView = (RecyclerView) findViewById(R.id.lst_items);
         mRecyclerView.setLayoutManager(getDefaultLayoutManager());
-        mContactsAdapter = new ContactsAdapter(this, mFiltered);
+        mContactsAdapter = new GridContactsAdapter(this, mFiltered);
         mRecyclerView.setAdapter(mContactsAdapter);
     }
 

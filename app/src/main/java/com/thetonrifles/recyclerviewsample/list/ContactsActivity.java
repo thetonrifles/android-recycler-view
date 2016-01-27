@@ -1,4 +1,4 @@
-package com.thetonrifles.recyclerviewsample.one;
+package com.thetonrifles.recyclerviewsample.list;
 
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;

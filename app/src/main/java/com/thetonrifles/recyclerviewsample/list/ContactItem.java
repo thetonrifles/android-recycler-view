@@ -1,4 +1,4 @@
-package com.thetonrifles.recyclerviewsample.one;
+package com.thetonrifles.recyclerviewsample.list;
 
 import com.thetonrifles.recyclerviewsample.model.Contact;
 

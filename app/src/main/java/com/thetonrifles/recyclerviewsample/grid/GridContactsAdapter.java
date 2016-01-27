@@ -1,51 +1,34 @@
-package com.thetonrifles.recyclerviewsample.two;
+package com.thetonrifles.recyclerviewsample.grid;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.thetonrifles.recyclerviewsample.R;
 import com.thetonrifles.recyclerviewsample.model.Contact;
 
 import java.util.List;
 
-class ContactsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+class GridContactsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static class EmptyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        Button btn_toast;
+    private static class EmptyViewHolder extends RecyclerView.ViewHolder {
 
         public EmptyViewHolder(View itemView) {
             super(itemView);
-            btn_toast = (Button) itemView.findViewById(R.id.btn_show_toast);
-            btn_toast.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            Toast.makeText(v.getContext(), "empty", Toast.LENGTH_SHORT).show();
         }
 
     }
 
-    private static class ContactViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private static class ContactViewHolder extends RecyclerView.ViewHolder {
 
         TextView txt_full_name;
 
         public ContactViewHolder(View itemView) {
             super(itemView);
             txt_full_name = (TextView) itemView.findViewById(R.id.txt_full_name);
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            Toast.makeText(v.getContext(), "item", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -55,7 +38,7 @@ class ContactsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Contact> mItems;
 
-    public ContactsAdapter(Context context, List<Contact> contacts) {
+    public GridContactsAdapter(Context context, List<Contact> contacts) {
         mContext = context;
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mItems = contacts;

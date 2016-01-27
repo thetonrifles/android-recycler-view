@@ -1,4 +1,4 @@
-package com.thetonrifles.recyclerviewsample.one;
+package com.thetonrifles.recyclerviewsample.list;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
