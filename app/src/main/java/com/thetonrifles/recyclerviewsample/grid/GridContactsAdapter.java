@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.thetonrifles.recyclerviewsample.R;
-import com.thetonrifles.recyclerviewsample.model.Contact;
 
 import java.util.List;
 

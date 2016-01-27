@@ -1,4 +1,4 @@
-package com.thetonrifles.recyclerviewsample.list;
+package com.thetonrifles.recyclerviewsample.sort;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -10,46 +10,37 @@ import android.view.View;
 
 import com.thetonrifles.recyclerviewsample.R;
 import com.thetonrifles.recyclerviewsample.Utils;
-import com.thetonrifles.recyclerviewsample.model.Contact;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class ListContactsActivity extends AppCompatActivity {
+public class SortPlayersActivity extends AppCompatActivity {
 
-    private List<Contact> mContacts;
+    private List<Player> mPlayers;
 
-    private ListContactsAdapter mContactsAdapter;
+    private SortPlayersAdapter mPlayersAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contacts_list);
+        setContentView(R.layout.activity_players_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mContacts = new ArrayList<>();
+        mPlayers = Players.getAll();
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.lst_items);
         recyclerView.setLayoutManager(getLayoutManager());
-        mContactsAdapter = new ListContactsAdapter(this, mContacts);
-        mContactsAdapter.setOnItemTapListener(new ListContactsAdapter.OnItemTapListener() {
-            @Override
-            public void onItemTap(Contact contact) {
-                mContacts.remove(contact);
-                mContactsAdapter.updateContactsList();
-            }
-        });
-        recyclerView.setAdapter(mContactsAdapter);
+        mPlayersAdapter = new SortPlayersAdapter(this, mPlayers);
+        recyclerView.setAdapter(mPlayersAdapter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContacts.add(new Contact(
-                        Utils.buildRandomString(5),
-                        Utils.buildRandomString(5)));
-                mContactsAdapter.updateContactsList();
+                mPlayers.add(new Player(
+                        Utils.buildRandomInt(10),
+                        Utils.buildRandomName(5) + " " + Utils.buildRandomName(5)));
+                mPlayersAdapter.updatePlayersList();
             }
         });
     }

@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.thetonrifles.recyclerviewsample.list.ListContactsActivity;
 import com.thetonrifles.recyclerviewsample.grid.GridContactsActivity;
+import com.thetonrifles.recyclerviewsample.sort.SortPlayersActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,8 +16,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        View one = findViewById(R.id.btn_solution_one);
-        one.setOnClickListener(new View.OnClickListener() {
+        View list = findViewById(R.id.btn_list_layout);
+        list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ListContactsActivity.class);
@@ -24,11 +25,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        View two = findViewById(R.id.btn_solution_two);
-        two.setOnClickListener(new View.OnClickListener() {
+        View grid = findViewById(R.id.btn_grid_layout);
+        grid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, GridContactsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        View sort = findViewById(R.id.btn_sorted_list);
+        sort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SortPlayersActivity.class);
                 startActivity(intent);
             }
         });

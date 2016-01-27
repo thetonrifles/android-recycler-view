@@ -12,10 +12,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-
-import com.thetonrifles.recyclerviewsample.Contacts;
 import com.thetonrifles.recyclerviewsample.R;
-import com.thetonrifles.recyclerviewsample.model.Contact;
 
 import java.util.ArrayList;
 import java.util.List;

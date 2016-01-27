@@ -14,18 +14,25 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/btn_solution_one"
+            android:id="@+id/btn_list_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="@string/txt_solution_one" />
+            android:text="@string/btn_list_layout" />
 
         <Button
-            android:id="@+id/btn_solution_two"
+            android:id="@+id/btn_grid_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="@string/txt_solution_two" />
+            android:text="@string/btn_grid_layout" />
+
+        <Button
+            android:id="@+id/btn_sorted_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@string/btn_sorted_list" />
 
     </LinearLayout>
 

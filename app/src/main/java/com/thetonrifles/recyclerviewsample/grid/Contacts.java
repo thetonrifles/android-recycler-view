@@ -1,10 +1,8 @@
-package com.thetonrifles.recyclerviewsample;
-
-import com.thetonrifles.recyclerviewsample.model.Contact;
+package com.thetonrifles.recyclerviewsample.grid;
 
 import java.util.ArrayList;
 
-public class Contacts {
+class Contacts {
 
     public static ArrayList<Contact> getAll() {
         ArrayList<Contact> contacts = new ArrayList<>();
