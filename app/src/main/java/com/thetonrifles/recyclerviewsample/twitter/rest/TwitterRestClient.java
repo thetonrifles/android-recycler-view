@@ -21,19 +21,25 @@ public class TwitterRestClient extends BasicRestClient {
     private static final String URL_BASE = "https://api.twitter.com";
 
     private static final String URL_OAUTH = URL_BASE + "/oauth2/token";
-    private static final String URL_TWEETS = URL_BASE + "/1.1/statuses/home_timeline.json";
+    private static final String URL_TWEETS = URL_BASE + "/1.1/statuses/user_timeline.json";
 
-    private static final String CONSUMER_KEY = "R5qVY6gziGpuR4au4figRQ";
-    private static final String CONSUMER_SECRET = "ViYC1i3w30vDAO7L3C9z46pOBrQTNgMeUJlZJ490";
-    private static final String ACCESS_TOKEN = "304297244-1XbtcCitPYnFivZ0VcpZh7CfUU107VTzUQyqdgOK";
-    private static final String ACCESS_TOKEN_SECRET = "EyTuKffxLdWNwJT3ESCVV27glXUSsgvwQAneZk2rJUZ5n";
+    private static final String CONSUMER_KEY = "";
+    private static final String CONSUMER_SECRET = "";
 
     public TwitterRestClient(Context context) {
         super(context);
     }
 
+    public void loadTweets(String name, HttpGetRequestListener listener) {
+        getAsync(URL_TWEETS + "?count=10&screen_name=" + name, listener);
+    }
 
-    public void loadTweets(final HttpGetRequestListener listener) {
+    /**
+     * Wrap the whole flow for executing an async request
+     * to Twitter, starting from token retrieval till
+     * final request execution.
+     */
+    private void getAsync(final String path, final HttpGetRequestListener listener) {
         (new AsyncTask<Void, Void, HttpResponse>() {
 
             @Override
@@ -47,15 +53,15 @@ public class TwitterRestClient extends BasicRestClient {
             @Override
             protected HttpResponse doInBackground(Void... voids) {
                 HttpResponse response = null;
-                String token = getToken();
+                String token = getBearerToken();
                 // valid token?
                 if (!TextUtils.isEmpty(token)) {
                     // let's perform request
                     HttpHeader[] headers = {
-                            new HttpHeader("Authorization", "Basic " + token),
+                            new HttpHeader("Authorization", "Bearer " + token),
                             new HttpHeader("Content-Type", "application/json")
                     };
-                    response = getSync(URL_TWEETS, headers);
+                    response = getSync(path, headers);
                 }
                 return response;
             }
@@ -73,9 +79,6 @@ public class TwitterRestClient extends BasicRestClient {
             }
 
         }).execute();
-
-//        conn.setRequestProperty("Content-Type", "application/json");
-        //;(new Gson()).toJson(object);
     }
 
     /**
@@ -84,13 +87,15 @@ public class TwitterRestClient extends BasicRestClient {
      * requested in past, it is loaded from
      * shared preferences.
      */
-    public String getToken() {
+    public String getBearerToken() {
         // trying to get token from shared preferences
-        String token = getTokenFromStorage();
+        String token = getBearerTokenFromStorage();
         // not in storage?
-        if (TextUtils.isEmpty(token)) {
+        if (!TextUtils.isEmpty(token)) {
+            Log.d(LOG_TAG, "Got token from local storage: " + token);
+        } else {
             // let's proceed by calling service
-            String bearer = getBearer();
+            String bearer = getBasicToken();
             if (bearer != null) {
                 HttpHeader[] headers = {
                         new HttpHeader("Authorization", "Basic " + bearer),
@@ -99,11 +104,12 @@ public class TwitterRestClient extends BasicRestClient {
                 HttpResponse response = postSync(URL_OAUTH, "grant_type=client_credentials", headers);
                 if (response != null && response.isSuccess()) {
                     String json = response.getJson();
-                    TokenWrapper wrapper = (new Gson()).fromJson(json, TokenWrapper.class);
+                    BearerTokenWrapper wrapper = (new Gson()).fromJson(json, BearerTokenWrapper.class);
                     Log.d(LOG_TAG, "Got token: " + wrapper.token);
                     token = wrapper.token;
                     // let's save token in storage for future usages
-                    saveToken(token);
+                    saveBearerToken(token);
+                    Log.d(LOG_TAG, "Token saved in local storage");
                 }
             }
         }
@@ -111,14 +117,17 @@ public class TwitterRestClient extends BasicRestClient {
     }
 
     /**
-     * Build bearer to be used for requesting
-     * token to Twitter services.
+     * Build basic token to be used for requesting
+     * bearer token to Twitter services.
      */
-    private String getBearer() {
+    private String getBasicToken() {
+        if (TextUtils.isEmpty(CONSUMER_KEY) || TextUtils.isEmpty(CONSUMER_SECRET)) {
+            Log.e(LOG_TAG, "consumer key and/or secret are undefined");
+            return null;
+        }
         try {
-            String twitterUrlApiKey = URLEncoder.encode(CONSUMER_KEY, "UTF-8");
-            String twitterUrlApiSecret = URLEncoder.encode(CONSUMER_SECRET, "UTF-8");
-            String twitterKeySecret = twitterUrlApiKey + ":" + twitterUrlApiSecret;
+            String twitterKeySecret = URLEncoder.encode(CONSUMER_KEY, "UTF-8") +
+                    ":" + URLEncoder.encode(CONSUMER_SECRET, "UTF-8");
             return Base64.encodeToString(twitterKeySecret.getBytes(), Base64.NO_WRAP);
         } catch (UnsupportedEncodingException ex) {
             Log.e(LOG_TAG, ex.getMessage());
@@ -130,7 +139,7 @@ public class TwitterRestClient extends BasicRestClient {
      * Retrieves token from shared preferences,
      * eventually returning null if not available.
      */
-    private String getTokenFromStorage() {
+    private String getBearerTokenFromStorage() {
         SharedPreferences prefs = getContext().getSharedPreferences("twitter", Context.MODE_PRIVATE);
         return prefs.getString("token", null);
     }
@@ -138,12 +147,12 @@ public class TwitterRestClient extends BasicRestClient {
     /**
      * Store token in shared preferences.
      */
-    private void saveToken(String token) {
+    private void saveBearerToken(String token) {
         SharedPreferences prefs = getContext().getSharedPreferences("twitter", Context.MODE_PRIVATE);
         prefs.edit().putString("token", token).apply();
     }
 
-    private static class TokenWrapper implements Serializable {
+    private static class BearerTokenWrapper implements Serializable {
 
         private static final long serialVersionUID = 1L;
 

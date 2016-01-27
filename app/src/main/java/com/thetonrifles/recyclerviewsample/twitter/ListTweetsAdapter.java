@@ -16,12 +16,10 @@ class ListTweetsAdapter extends RecyclerView.Adapter<ListTweetsAdapter.TweetView
     protected static class TweetViewHolder extends RecyclerView.ViewHolder {
 
         TextView content;
-        TextView author;
 
         public TweetViewHolder(View itemView) {
             super(itemView);
             content = (TextView) itemView.findViewById(R.id.txt_content);
-            author = (TextView) itemView.findViewById(R.id.txt_author);
         }
 
     }
@@ -49,7 +47,6 @@ class ListTweetsAdapter extends RecyclerView.Adapter<ListTweetsAdapter.TweetView
     public void onBindViewHolder(final TweetViewHolder viewHolder, final int position) {
         Tweet tweet = mTweets.get(position);
         viewHolder.content.setText(tweet.getContent());
-        viewHolder.author.setText(tweet.getAuthor());
     }
 
 }

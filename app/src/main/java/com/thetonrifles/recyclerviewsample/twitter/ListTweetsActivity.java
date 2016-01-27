@@ -5,8 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.thetonrifles.recyclerviewsample.R;
+import com.thetonrifles.recyclerviewsample.twitter.rest.HttpGetRequestListener;
 import com.thetonrifles.recyclerviewsample.twitter.rest.TwitterRestClient;
 
 import java.util.ArrayList;
@@ -44,17 +49,24 @@ public class ListTweetsActivity extends AppCompatActivity {
     }
 
     private void loadFeeds() {
-//        mHttp.getToken(new HttpPostRequestListener() {
-//            @Override
-//            public void onSuccess(String result) {
-//                Log.d("test", result);
-//            }
-//
-//            @Override
-//            public void onFailure(Exception ex) {
-//                Log.e("test", ex.getMessage());
-//            }
-//        });
+        mHttp.loadTweets("aaroadwatch", new HttpGetRequestListener() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d(LOG_TAG, result);
+                List<Tweet> tweets = (new Gson()).fromJson(result,
+                        new TypeToken<List<Tweet>>() {
+                }.getType());
+                mTweets.clear();
+                mTweets.addAll(tweets);
+                mTweetsAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Exception ex) {
+                Log.e(LOG_TAG, ex.getMessage());
+                Toast.makeText(ListTweetsActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }
