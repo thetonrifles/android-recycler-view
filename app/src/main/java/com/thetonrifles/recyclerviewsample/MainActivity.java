@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.thetonrifles.recyclerviewsample.list.ContactsActivity;
+import com.thetonrifles.recyclerviewsample.list.ListContactsActivity;
 import com.thetonrifles.recyclerviewsample.grid.GridContactsActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         one.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ContactsActivity.class);
+                Intent intent = new Intent(MainActivity.this, ListContactsActivity.class);
                 startActivity(intent);
             }
         });

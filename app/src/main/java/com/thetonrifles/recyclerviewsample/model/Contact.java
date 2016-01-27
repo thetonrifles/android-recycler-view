@@ -26,4 +26,14 @@ public class Contact {
         this.surname = surname;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || !(o instanceof Contact)) {
+            return false;
+        }
+        Contact other = (Contact) o;
+        return name.equals(other.getName()) &&
+                surname.equals(other.getSurname());
+    }
+
 }
