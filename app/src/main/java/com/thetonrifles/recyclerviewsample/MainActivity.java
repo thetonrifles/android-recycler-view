@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.thetonrifles.recyclerviewsample.list.ListContactsActivity;
 import com.thetonrifles.recyclerviewsample.grid.GridContactsActivity;
-import com.thetonrifles.recyclerviewsample.sort.SortPlayersActivity;
+import com.thetonrifles.recyclerviewsample.sort.SortPersonsActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         sort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SortPlayersActivity.class);
+                Intent intent = new Intent(MainActivity.this, SortPersonsActivity.class);
                 startActivity(intent);
             }
         });

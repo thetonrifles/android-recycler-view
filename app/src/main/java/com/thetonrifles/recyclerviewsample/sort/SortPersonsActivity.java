@@ -11,13 +11,14 @@ import android.view.View;
 import com.thetonrifles.recyclerviewsample.R;
 import com.thetonrifles.recyclerviewsample.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class SortPlayersActivity extends AppCompatActivity {
+public class SortPersonsActivity extends AppCompatActivity {
 
-    private List<Player> mPlayers;
+    private List<Person> mPersons;
 
-    private SortPlayersAdapter mPlayersAdapter;
+    private SortPersonsAdapter mPlayersAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,21 +27,25 @@ public class SortPlayersActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mPlayers = Players.getAll();
+        mPersons = getAll();
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.lst_items);
         recyclerView.setLayoutManager(getLayoutManager());
-        mPlayersAdapter = new SortPlayersAdapter(this, mPlayers);
+        mPlayersAdapter = new SortPersonsAdapter(this, mPersons);
         recyclerView.setAdapter(mPlayersAdapter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPlayers.add(new Player(
+                // building new fake player
+                Person person = new Person(
                         Utils.buildRandomInt(10),
-                        Utils.buildRandomName(5) + " " + Utils.buildRandomName(5)));
-                mPlayersAdapter.updatePlayersList();
+                        Utils.buildRandomName(5) + " " + Utils.buildRandomName(5));
+                // let's keep also basic list updated
+                mPersons.add(person);
+                // let's update adapter
+                mPlayersAdapter.addPlayer(person);
             }
         });
     }
@@ -49,6 +54,16 @@ public class SortPlayersActivity extends AppCompatActivity {
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         return llm;
+    }
+
+    private List<Person> getAll() {
+        List<Person> persons = new ArrayList<>();
+        persons.add(new Person(1, "James Kub"));
+        persons.add(new Person(2, "Peter Hanly"));
+        persons.add(new Person(3, "Josh Penny"));
+        persons.add(new Person(1, "Danny Jackson"));
+        persons.add(new Person(3, "Brad Black"));
+        return persons;
     }
 
 }
