@@ -10,7 +10,6 @@ import android.view.View;
 
 import com.thetonrifles.recyclerviewsample.R;
 import com.thetonrifles.recyclerviewsample.Utils;
-import com.thetonrifles.recyclerviewsample.model.Contact;
 
 import java.util.ArrayList;
 import java.util.List;

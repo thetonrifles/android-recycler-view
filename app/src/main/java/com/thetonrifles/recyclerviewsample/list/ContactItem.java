@@ -1,7 +1,5 @@
 package com.thetonrifles.recyclerviewsample.list;
 
-import com.thetonrifles.recyclerviewsample.model.Contact;
-
 class ContactItem extends ListItem {
 
     private Contact contact;
