@@ -2,19 +2,19 @@ package com.thetonrifles.recyclerviewsample.sort;
 
 class Person {
 
-    private int rank;
+    private String rank;
     private String name;
 
-    public Person(int rank, String name) {
+    public Person(String rank, String name) {
         this.rank = rank;
         this.name = name;
     }
 
-    public int getRank() {
+    public String getRank() {
         return rank;
     }
 
-    public void setRank(int rank) {
+    public void setRank(String rank) {
         this.rank = rank;
     }
 

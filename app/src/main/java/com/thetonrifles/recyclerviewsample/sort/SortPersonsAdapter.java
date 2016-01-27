@@ -59,7 +59,7 @@ class SortPersonsAdapter extends RecyclerView.Adapter<SortPersonsAdapter.PersonV
     @Override
     public void onBindViewHolder(final PersonViewHolder viewHolder, final int position) {
         Person person = mPersons.get(position);
-        viewHolder.txt_rank.setText(person.getRank() + "\nRANK");
+        viewHolder.txt_rank.setText(person.getRank());
         viewHolder.txt_full_name.setText(person.getName());
     }
 
@@ -70,7 +70,9 @@ class SortPersonsAdapter extends RecyclerView.Adapter<SortPersonsAdapter.PersonV
 
         @Override
         public int compare(Person p1, Person p2) {
-            int diff = p1.getRank() - p2.getRank();
+            String[] rank1 = p1.getRank().split("\n");
+            String[] rank2 = p2.getRank().split("\n");
+            int diff = Integer.parseInt(rank1[0]) - Integer.parseInt(rank2[0]);
             return (diff == 0) ? p1.getName().compareTo(p2.getName()) : diff;
         }
 

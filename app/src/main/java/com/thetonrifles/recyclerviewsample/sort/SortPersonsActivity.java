@@ -40,7 +40,7 @@ public class SortPersonsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // building new fake person
                 Person person = new Person(
-                        Utils.buildRandomInt(10),
+                        Utils.buildRandomInt(10) + "\nrank",
                         Utils.buildRandomName(5) + " " + Utils.buildRandomName(5));
                 // let's keep also basic list updated
                 mPersons.add(person);
@@ -58,11 +58,11 @@ public class SortPersonsActivity extends AppCompatActivity {
 
     private List<Person> getAll() {
         List<Person> persons = new ArrayList<>();
-        persons.add(new Person(1, "James Kub"));
-        persons.add(new Person(2, "Peter Hanly"));
-        persons.add(new Person(3, "Josh Penny"));
-        persons.add(new Person(1, "Danny Jackson"));
-        persons.add(new Person(3, "Brad Black"));
+        persons.add(new Person("1\nrank", "James Kub"));
+        persons.add(new Person("2\nrank", "Peter Hanly"));
+        persons.add(new Person("3\nrank", "Josh Penny"));
+        persons.add(new Person("1\nrank", "Danny Jackson"));
+        persons.add(new Person("3\nrank", "Brad Black"));
         return persons;
     }
 

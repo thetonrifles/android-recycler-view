@@ -5,9 +5,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.thetonrifles.recyclerviewsample.list.ListContactsActivity;
 import com.thetonrifles.recyclerviewsample.grid.GridContactsActivity;
+import com.thetonrifles.recyclerviewsample.list.ListContactsActivity;
 import com.thetonrifles.recyclerviewsample.sort.SortPersonsActivity;
+import com.thetonrifles.recyclerviewsample.twitter.ListTweetsActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,6 +40,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, SortPersonsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        View twitter = findViewById(R.id.btn_twitter_stream);
+        twitter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ListTweetsActivity.class);
                 startActivity(intent);
             }
         });
