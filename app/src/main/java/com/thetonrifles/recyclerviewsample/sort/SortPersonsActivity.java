@@ -2,10 +2,16 @@ package com.thetonrifles.recyclerviewsample.sort;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.thetonrifles.recyclerviewsample.R;
@@ -14,7 +20,9 @@ import com.thetonrifles.recyclerviewsample.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SortPersonsActivity extends AppCompatActivity {
+public class SortPersonsActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+
+    private String mSearchQuery;
 
     private List<Person> mPersons;
 
@@ -44,8 +52,10 @@ public class SortPersonsActivity extends AppCompatActivity {
                         Utils.buildRandomName(5) + " " + Utils.buildRandomName(5));
                 // let's keep also basic list updated
                 mPersons.add(person);
-                // let's update adapter
-                mPersonsAdapter.addPerson(person);
+                if (matchesFilter(person, mSearchQuery)) {
+                    // let's update adapter
+                    mPersonsAdapter.addPerson(person);
+                }
             }
         });
     }
@@ -64,6 +74,42 @@ public class SortPersonsActivity extends AppCompatActivity {
         persons.add(new Person("1\nrank", "Danny Jackson"));
         persons.add(new Person("3\nrank", "Brad Black"));
         return persons;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_contacts, menu);
+        MenuItem item = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        searchView.setOnQueryTextListener(this);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onQueryTextChange(String query) {
+        mSearchQuery = query;
+        mPersonsAdapter.removePersons();
+        for (Person person : mPersons) {
+            if (matchesFilter(person, query)) {
+                mPersonsAdapter.addPerson(person);
+            } else {
+                mPersonsAdapter.removePerson(person);
+            }
+        }
+        mPersonsAdapter.notifyDataSetChanged();
+        return false;
+    }
+
+    private boolean matchesFilter(Person contact, String query) {
+        String lowerQuery = (query!= null) ? query.toLowerCase() : "";
+        return TextUtils.isEmpty(lowerQuery) ||
+                contact.getName().toLowerCase().contains(lowerQuery);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
     }
 
 }

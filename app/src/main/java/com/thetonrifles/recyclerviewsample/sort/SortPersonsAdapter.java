@@ -29,20 +29,26 @@ class SortPersonsAdapter extends RecyclerView.Adapter<SortPersonsAdapter.PersonV
 
     }
 
-    private Context mContext;
     private LayoutInflater mLayoutInflater;
 
     private SortedList<Person> mPersons;
 
     public SortPersonsAdapter(Context context, List<Person> persons) {
-        mContext = context;
-        mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mPersons = new SortedList<>(Person.class, new PersonListCallback());
         mPersons.addAll(persons);
     }
 
     public void addPerson(Person person) {
         mPersons.add(person);
+    }
+
+    public void removePerson(Person person) {
+        mPersons.remove(person);
+    }
+
+    public void removePersons() {
+        mPersons.clear();
     }
 
     @Override
