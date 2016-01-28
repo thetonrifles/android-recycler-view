@@ -22,19 +22,22 @@ class ListContactsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     }
 
-    private static class ContactViewHolder extends RecyclerView.ViewHolder {
+    private class ContactViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        View layout;
         TextView txt_full_name;
 
         public ContactViewHolder(View itemView) {
             super(itemView);
-            layout = itemView;
             txt_full_name = (TextView) itemView.findViewById(R.id.txt_full_name);
+            itemView.setOnClickListener(this);
         }
 
-        public void setOnClickListener(View.OnClickListener listener) {
-            layout.setOnClickListener(listener);
+        @Override
+        public void onClick(View v) {
+            if (mOnItemTapListener != null) {
+                Contact contact = mContacts.get(getLayoutPosition());
+                mOnItemTapListener.onItemTap(contact, getLayoutPosition());
+            }
         }
 
     }
@@ -60,7 +63,7 @@ class ListContactsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     private List<ListItem> buildItemsList() {
         List<ListItem> items = new ArrayList<>();
-        if (mContacts != null && mContacts.size() > 0) {
+        if (mContacts.size() > 0) {
             for (Contact contact : mContacts) {
                 items.add(new ContactItem(contact));
             }
@@ -72,10 +75,34 @@ class ListContactsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return items;
     }
 
-    public void updateContactsList() {
-        mItems.clear();
-        mItems.addAll(buildItemsList());
-        notifyDataSetChanged();
+    public void addItem(Contact contact) {
+        if (mContacts.size()==0) {
+            // if list is empty we must
+            // remove empty cards first
+            mItems.clear();
+            notifyDataSetChanged();
+        }
+        // in any case we need to add
+        // item on bottom of the list
+        mContacts.add(contact);
+        mItems.add(new ContactItem(contact));
+        notifyItemInserted(mItems.size()-1);
+    }
+
+    public void removeItem(Contact contact, int position) {
+        mContacts.remove(contact);
+        if (mContacts.size()==0) {
+            // if no more contacts in list,
+            // we rebuild from scratch
+            mItems.clear();
+            mItems.addAll(buildItemsList());
+            notifyDataSetChanged();
+        } else {
+            // else we just need to remove
+            // one item
+            mItems.remove(position);
+            notifyItemRemoved(position);
+        }
     }
 
     @Override
@@ -107,20 +134,12 @@ class ListContactsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             final Contact contact = item.getContact();
             ContactViewHolder holder = (ContactViewHolder) viewHolder;
             holder.txt_full_name.setText(contact.getName() + " " + contact.getSurname());
-            holder.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mOnItemTapListener != null) {
-                        mOnItemTapListener.onItemTap(contact);
-                    }
-                }
-            });
         }
     }
 
     public interface OnItemTapListener {
 
-        void onItemTap(Contact contact);
+        void onItemTap(Contact contact, int position);
 
     }
 

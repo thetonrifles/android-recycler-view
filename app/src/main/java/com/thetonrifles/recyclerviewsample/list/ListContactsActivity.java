@@ -34,9 +34,8 @@ public class ListContactsActivity extends AppCompatActivity {
         mContactsAdapter = new ListContactsAdapter(this, mContacts);
         mContactsAdapter.setOnItemTapListener(new ListContactsAdapter.OnItemTapListener() {
             @Override
-            public void onItemTap(Contact contact) {
-                mContacts.remove(contact);
-                mContactsAdapter.updateContactsList();
+            public void onItemTap(Contact contact, int position) {
+                mContactsAdapter.removeItem(contact, position);
             }
         });
         recyclerView.setAdapter(mContactsAdapter);
@@ -45,10 +44,10 @@ public class ListContactsActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContacts.add(new Contact(
+                Contact contact = new Contact(
                         Utils.buildRandomString(5),
-                        Utils.buildRandomString(5)));
-                mContactsAdapter.updateContactsList();
+                        Utils.buildRandomString(5));
+                mContactsAdapter.addItem(contact);
             }
         });
     }
