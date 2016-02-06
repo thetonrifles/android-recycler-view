@@ -2,6 +2,7 @@ package com.thetonrifles.recyclerviewsample;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,14 @@ class ContactsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         @Override
         public void onClick(View v) {
             mItems.add(new Contact(Utils.buildRandomName(5), Utils.buildRandomName(5)));
-            notifyDataSetChanged();
+            notifyItemInserted(mItems.size());
+            Log.d("askj", "Sizee: " + mItems.size());
+            if(mItems.size()>5 && hasLoadButton){
+                hasLoadButton = false;
+                notifyItemRemoved(mItems.size() + 1);
+                notifyItemRangeChanged(mItems.size() + 1, getItemCount());
+                Log.e("askj", "calledLoad");
+            }
         }
 
     }
@@ -47,6 +55,8 @@ class ContactsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Contact> mItems;
 
+    boolean hasLoadButton = true;
+
     public ContactsAdapter(Context context, List<Contact> contacts) {
         mContext = context;
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -55,12 +65,21 @@ class ContactsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mItems.size() < THRESHOLD ? mItems.size() + 1 : mItems.size();
+        if (hasLoadButton) {
+            return mItems==null? 1 :mItems.size() + 1;
+        } else {
+            return mItems==null? 0 :mItems.size();
+        }
     }
 
     @Override
     public int getItemViewType(int position) {
-        return (mItems.size() < THRESHOLD && position == mItems.size()) ? TYPE_BUTTON : TYPE_CONTACT;
+        // before was position < getItemCount()-1
+        if (mItems!=null && position < mItems.size()) {
+            return TYPE_CONTACT;
+        } else {
+            return TYPE_BUTTON;
+        }
     }
 
     @Override
