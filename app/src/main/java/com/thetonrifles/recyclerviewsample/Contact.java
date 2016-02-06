@@ -1,4 +1,4 @@
-package com.thetonrifles.recyclerviewsample.grid;
+package com.thetonrifles.recyclerviewsample;
 
 class Contact {
 

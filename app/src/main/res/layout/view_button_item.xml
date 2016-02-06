@@ -12,6 +12,6 @@
         android:background="@color/red"
         android:gravity="center"
         android:padding="16dp"
-        android:text="@string/txt_no_items" />
+        android:text="@string/btn_add_item" />
 
 </LinearLayout>

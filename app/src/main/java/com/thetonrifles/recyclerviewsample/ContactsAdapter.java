@@ -1,4 +1,4 @@
-package com.thetonrifles.recyclerviewsample.grid;
+package com.thetonrifles.recyclerviewsample;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -7,21 +7,31 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.thetonrifles.recyclerviewsample.R;
-
 import java.util.List;
 
-class GridContactsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+class ContactsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static class EmptyViewHolder extends RecyclerView.ViewHolder {
+    private static final int THRESHOLD = 5;
 
-        public EmptyViewHolder(View itemView) {
+    private static final int TYPE_CONTACT = 0;
+    private static final int TYPE_BUTTON = 1;
+
+    private class ButtonViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        public ButtonViewHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            mItems.add(new Contact(Utils.buildRandomName(5), Utils.buildRandomName(5)));
+            notifyDataSetChanged();
         }
 
     }
 
-    private static class ContactViewHolder extends RecyclerView.ViewHolder {
+    private class ContactViewHolder extends RecyclerView.ViewHolder {
 
         TextView txt_full_name;
 
@@ -37,7 +47,7 @@ class GridContactsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     private List<Contact> mItems;
 
-    public GridContactsAdapter(Context context, List<Contact> contacts) {
+    public ContactsAdapter(Context context, List<Contact> contacts) {
         mContext = context;
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mItems = contacts;
@@ -45,19 +55,19 @@ class GridContactsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return mItems.size() > 0 ? mItems.size() : 1;
+        return mItems.size() < THRESHOLD ? mItems.size() + 1 : mItems.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        return mItems.size() == 0 ? 0 : 1;
+        return (mItems.size() < THRESHOLD && position == mItems.size()) ? TYPE_BUTTON : TYPE_CONTACT;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == 0) {
-            View itemView = mLayoutInflater.inflate(R.layout.view_empty_item, parent, false);
-            return new EmptyViewHolder(itemView);
+        if (viewType == TYPE_BUTTON) {
+            View itemView = mLayoutInflater.inflate(R.layout.view_button_item, parent, false);
+            return new ButtonViewHolder(itemView);
         } else {
             View itemView = mLayoutInflater.inflate(R.layout.view_contact_item, parent, false);
             return new ContactViewHolder(itemView);
@@ -67,7 +77,7 @@ class GridContactsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, final int position) {
         int type = getItemViewType(position);
-        if (type == 1) {
+        if (type == TYPE_CONTACT) {
             Contact contact = mItems.get(position);
             ContactViewHolder holder = (ContactViewHolder) viewHolder;
             holder.txt_full_name.setText(contact.getName() + " " + contact.getSurname());

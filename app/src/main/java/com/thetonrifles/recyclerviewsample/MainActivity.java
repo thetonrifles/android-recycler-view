@@ -1,57 +1,40 @@
 package com.thetonrifles.recyclerviewsample;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 
-import com.thetonrifles.recyclerviewsample.grid.GridContactsActivity;
-import com.thetonrifles.recyclerviewsample.list.ListContactsActivity;
-import com.thetonrifles.recyclerviewsample.sort.SortPersonsActivity;
-import com.thetonrifles.recyclerviewsample.twitter.ListTweetsActivity;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_contacts);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        View list = findViewById(R.id.btn_list_layout);
-        list.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ListContactsActivity.class);
-                startActivity(intent);
-            }
-        });
+        List<Contact> contacts = getAll();
 
-        View grid = findViewById(R.id.btn_grid_layout);
-        grid.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, GridContactsActivity.class);
-                startActivity(intent);
-            }
-        });
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.lst_items);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        ContactsAdapter adapter = new ContactsAdapter(this, contacts);
+        recyclerView.setAdapter(adapter);
+    }
 
-        View sort = findViewById(R.id.btn_sorted_list);
-        sort.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SortPersonsActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        View twitter = findViewById(R.id.btn_twitter_stream);
-        twitter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ListTweetsActivity.class);
-                startActivity(intent);
-            }
-        });
+    private ArrayList<Contact> getAll() {
+        ArrayList<Contact> contacts = new ArrayList<>();
+//        contacts.add(new Contact("Giorgio", "Bianchi"));
+//        contacts.add(new Contact("Mario", "Rossi"));
+//        contacts.add(new Contact("Giuseppe", "Verdi"));
+//        contacts.add(new Contact("Marco", "Gialli"));
+//        contacts.add(new Contact("Andrea", "Mainardi"));
+//        contacts.add(new Contact("Rocco", "Tano"));
+        return contacts;
     }
 
 }

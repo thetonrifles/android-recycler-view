@@ -4,11 +4,6 @@ import java.util.Random;
 
 public class Utils {
 
-    public static int buildRandomInt(int limit) {
-        Random r = new Random();
-        return r.nextInt(limit-1) + 1;
-    }
-
     public static String buildRandomString(int n) {
         char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
         StringBuilder sb = new StringBuilder();

@@ -1,11 +1,6 @@
 <resources>
 
-    <string name="app_name">Recycler View Samples</string>
-    <string name="txt_no_items">No Items To Display</string>
-    <string name="action_search">Search</string>
-    <string name="btn_list_layout">List Layout</string>
-    <string name="btn_grid_layout">Grid Layout</string>
-    <string name="btn_sorted_list">Sorted List</string>
-    <string name="btn_twitter_stream">Twitter Stream</string>
+    <string name="app_name">Recycler View Sample</string>
+    <string name="btn_add_item">Click to Add</string>
 
 </resources>
